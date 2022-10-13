@@ -1,6 +1,8 @@
 import Head from "next/head";
-import Link from "next/link";
+// import Link from "next/link";
+import ProductCart from "../components/ProductCart";
 // import { useEffect, useState } from "react";
+// ProductCart
 
 import Title from "../components/Title";
 import { getProducts } from "../lib/products";
@@ -10,7 +12,8 @@ export async function getStaticProps() {
   const products = await getProducts();
   return {
     props: { products },
-    revalidate: 5 * 60,
+    // revalidate: 5 * 60,
+    revalidate: 30,
   };
 }
 // server side rendering, compact data, more requests
@@ -24,6 +27,7 @@ export async function getStaticProps() {
 // client fetch data
 // export default function Home() {
 export default function Home({ products }) {
+  // console.log(products);
   // this calls the api route on pages
   // const [products, setProducts] = useState([])
 
@@ -43,12 +47,10 @@ export default function Home({ products }) {
       </Head>
       <main className="p-6">
         <Title>Dyqoni</Title>
-        <ul>
+        <ul className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {products.map((product) => (
             <li className="text-black" key={product.id}>
-              <Link href={`/products/${product.id}`}>
-                <a>{product.title}</a>
-              </Link>
+              <ProductCart product={product} />
             </li>
           ))}
         </ul>
