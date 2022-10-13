@@ -1,15 +1,16 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+// import { useEffect, useState } from "react";
+
 import Title from "../components/Title";
 import { getProducts } from "../lib/products";
-// import Image from "next/image";
-// import styles from "../styles/Home.module.css";
+
 // for not loading the server with to many requests
 export async function getStaticProps() {
   const products = await getProducts();
   return {
     props: { products },
-    revalidate: 5*60
+    revalidate: 5 * 60,
   };
 }
 // server side rendering, compact data, more requests
@@ -45,7 +46,9 @@ export default function Home({ products }) {
         <ul>
           {products.map((product) => (
             <li className="text-black" key={product.id}>
-              {product.title}
+              <Link href={`/products/${product.id}`}>
+                <a>{product.title}</a>
+              </Link>
             </li>
           ))}
         </ul>
